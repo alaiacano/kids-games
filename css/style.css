@@ -1,0 +1,990 @@
+/* ── Reset & Base ─────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: #0b0d2a;
+  color: #fff;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── Starfield background ────────────────────────── */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background:
+    radial-gradient(1px 1px at 10% 20%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 25% 55%, #fff 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 15%, #ffd27f 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 80%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 70% 35%, #fff 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 65%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(1px 1px at 15% 75%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 90% 10%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 50% 45%, #fff 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 35% 90%, #ffd27f 50%, transparent 100%);
+}
+
+body::after {
+  background:
+    radial-gradient(1px 1px at 5% 40%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 18% 10%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 32% 70%, #a0c4ff 50%, transparent 100%),
+    radial-gradient(1px 1px at 48% 25%, #fff 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 55%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 78% 85%, #ffd27f 50%, transparent 100%),
+    radial-gradient(1px 1px at 92% 45%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 22% 95%, #fff 50%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 65% 8%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 80% 50%, #a0c4ff 50%, transparent 100%);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ── Menu Screen ─────────────────────────────────── */
+#menu-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  gap: 32px;
+}
+
+.menu-title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 800;
+  text-align: center;
+  background: linear-gradient(135deg, #ffd700, #ff6bcb, #7b68ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 8px rgba(255, 107, 203, 0.4));
+}
+
+.game-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
+  gap: 24px;
+  justify-content: center;
+  max-width: 900px;
+  width: 100%;
+}
+
+.game-card {
+  background: linear-gradient(145deg, #1a1e4a, #252a60);
+  border: 3px solid #7b68ee;
+  border-radius: 20px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-height: 180px;
+  justify-content: center;
+}
+
+.game-card:hover,
+.game-card:active {
+  transform: scale(1.05);
+  border-color: #ffd700;
+  box-shadow: 0 0 24px rgba(255, 215, 0, 0.3);
+}
+
+.game-card .card-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.game-card .card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.game-card .card-desc {
+  font-size: 0.9rem;
+  color: #a9b4e0;
+}
+
+/* ── Game Screen ─────────────────────────────────── */
+#game-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.back-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  background: rgba(30, 30, 80, 0.85);
+  border: 2px solid #7b68ee;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.back-btn:hover {
+  background: #7b68ee;
+}
+
+#game-container {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Sticker Scene Layout ────────────────────────── */
+.sticker-scene {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Palette sidebar */
+.sticker-palette {
+  width: 110px;
+  min-width: 110px;
+  background: rgba(15, 15, 50, 0.9);
+  border-right: 2px solid #333;
+  overflow-y: auto;
+  padding: 50px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+}
+
+.palette-sticker {
+  width: 90px;
+  height: 90px;
+  border: 3px solid transparent;
+  border-radius: 14px;
+  background: rgba(40, 40, 90, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: border-color 0.12s, background 0.12s;
+  flex-shrink: 0;
+}
+
+.palette-sticker svg {
+  width: 100%;
+  height: 100%;
+}
+
+.palette-sticker:hover {
+  background: rgba(60, 60, 120, 0.8);
+}
+
+.palette-sticker.selected {
+  border-color: #ffd700;
+  background: rgba(80, 70, 30, 0.5);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+/* Canvas area */
+.scene-canvas {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+  background: radial-gradient(ellipse at 30% 60%, rgba(30, 20, 80, 0.4) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(20, 40, 80, 0.3) 0%, transparent 50%);
+}
+
+/* Placed sticker */
+.placed-sticker {
+  position: absolute;
+  cursor: grab;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+  transition: filter 0.1s;
+}
+
+.placed-sticker svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.placed-sticker.selected-sticker {
+  outline: 2px dashed #ffd700;
+  outline-offset: 4px;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.placed-sticker:active {
+  cursor: grabbing;
+}
+
+/* Delete handle on selected sticker */
+.sticker-delete {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 30px;
+  height: 30px;
+  background: #e74c3c;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  z-index: 10;
+}
+
+.sticker-delete:hover {
+  background: #c0392b;
+}
+
+/* Resize handle */
+.sticker-resize {
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  background: #ffd700;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  cursor: nwse-resize;
+  z-index: 10;
+  touch-action: none;
+}
+
+.sticker-resize::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(0,0,0,0.4);
+  border-bottom: 2px solid rgba(0,0,0,0.4);
+}
+
+/* ── Bottom Toolbar ──────────────────────────────── */
+.scene-toolbar {
+  background: rgba(15, 15, 50, 0.95);
+  border-top: 2px solid #333;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 56px;
+}
+
+.toolbar-btn {
+  background: linear-gradient(145deg, #2a2e6a, #3a3f8a);
+  border: 2px solid #7b68ee;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-btn:hover {
+  background: #7b68ee;
+  border-color: #a390ff;
+}
+
+.toolbar-btn.danger {
+  border-color: #e74c3c;
+}
+
+.toolbar-btn.danger:hover {
+  background: #e74c3c;
+  border-color: #ff6b6b;
+}
+
+/* Size buttons */
+.size-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.size-label {
+  font-size: 0.85rem;
+  color: #a9b4e0;
+  margin-right: 2px;
+}
+
+.size-btn {
+  background: rgba(40, 40, 90, 0.7);
+  border: 2px solid #555;
+  color: #ccc;
+  font-size: 0.85rem;
+  font-weight: 700;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.size-btn.active {
+  border-color: #ffd700;
+  background: rgba(80, 70, 30, 0.5);
+  color: #ffd700;
+}
+
+.size-btn:hover {
+  border-color: #aaa;
+}
+
+/* ── Confirm dialog ──────────────────────────────── */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-dialog {
+  background: linear-gradient(145deg, #1a1e4a, #252a60);
+  border: 3px solid #7b68ee;
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  max-width: 320px;
+}
+
+.confirm-dialog p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.confirm-dialog .confirm-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.confirm-dialog .confirm-btns button {
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-width: 80px;
+  min-height: 44px;
+  color: #fff;
+}
+
+.confirm-yes {
+  background: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.confirm-yes:hover {
+  background: #c0392b;
+}
+
+.confirm-no {
+  background: #7b68ee;
+  border-color: #7b68ee;
+}
+
+.confirm-no:hover {
+  background: #6a5acd;
+}
+
+/* ── Playground Scene ─────────────────────────────── */
+.playground-canvas {
+  background: linear-gradient(180deg, #87ceeb 0%, #b0e0ff 55%, #4a9e4a 55%, #3a8a3a 100%);
+  cursor: crosshair;
+}
+
+.playground-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ── Demon Hunters Game ──────────────────────────── */
+.dh-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: linear-gradient(180deg, #0d0221 0%, #1a0a3e 30%, #2d1b69 60%, #4a2c8a 85%, #5b348b 100%);
+}
+
+.dh-bg-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dh-skyline {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  right: 0;
+  height: 200px;
+}
+
+.dh-skyline svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dh-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 12%;
+  background: linear-gradient(180deg, #1a0a3e, #0d0221);
+}
+
+.dh-glitter {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.glitter-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffd700, transparent 70%);
+  animation: glitterBlink var(--dur) var(--del) infinite ease-in-out;
+}
+
+@keyframes glitterBlink {
+  0%, 100% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: var(--peak); transform: scale(1); }
+}
+
+/* DH Start Screen */
+.dh-start {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 10;
+}
+
+.dh-title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.2;
+  padding: 0 20px;
+  background: linear-gradient(135deg, #ff6bcb, #b388ff, #82b1ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 3px 10px rgba(179, 136, 255, 0.5));
+}
+
+.dh-best-score {
+  font-size: 1.2rem;
+  color: #ffd700;
+  font-weight: 700;
+  min-height: 1.4em;
+}
+
+.dh-play-btn {
+  margin-top: 8px;
+  padding: 16px 52px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(145deg, #9b59b6, #6b3fa0);
+  border: 3px solid #ffd700;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  min-height: 56px;
+}
+
+.dh-play-btn:hover,
+.dh-play-btn:active {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+/* DH Game Area */
+.dh-game-area {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+}
+
+.dh-score-bar {
+  padding: 10px 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 10;
+}
+
+.dh-score {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ffd700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.dh-missed {
+  color: #ff6b6b;
+}
+
+.dh-timer {
+  color: #b388ff;
+}
+
+.dh-reset-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 36px;
+  transition: background 0.12s, border-color 0.12s;
+}
+
+.dh-reset-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffd700;
+}
+
+.dh-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(90px, 150px));
+  grid-template-rows: repeat(2, 130px);
+  gap: 10px 20px;
+  justify-content: center;
+  align-content: center;
+  flex: 1;
+  padding: 10px;
+  max-width: 560px;
+  width: 100%;
+}
+
+.demon-hole {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.hole-top {
+  width: 100%;
+  height: 88px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.demon-sprite {
+  position: absolute;
+  bottom: 0;
+  width: 78px;
+  height: 88px;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.demon-sprite svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.demon-sprite.popped {
+  transform: translateY(5%);
+}
+
+.demon-sprite.whacked {
+  transition: none;
+  animation: demonHit 0.4s ease-out forwards;
+}
+
+@keyframes demonHit {
+  0% { transform: translateY(5%) rotate(0); }
+  15% { transform: translateY(0) rotate(14deg); }
+  30% { transform: translateY(5%) rotate(-14deg); }
+  50% { transform: translateY(0) rotate(8deg); opacity: 0.6; }
+  100% { transform: translateY(110%) rotate(0); opacity: 0; }
+}
+
+.hole-portal {
+  width: 108%;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #1a0a3e 25%, #4a2080 60%, transparent 100%);
+  box-shadow: 0 0 12px rgba(155, 89, 182, 0.5), 0 0 25px rgba(155, 89, 182, 0.15);
+  border: 1.5px solid rgba(155, 89, 182, 0.35);
+  margin-top: -13px;
+  position: relative;
+  z-index: 3;
+}
+
+/* DH Effects */
+.dh-slash {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 50;
+  animation: slashSwing 0.3s ease-out forwards;
+}
+
+.dh-slash svg {
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes slashSwing {
+  0% { opacity: 1; transform: scale(0.5) rotate(-45deg); }
+  40% { opacity: 1; transform: scale(1.1) rotate(10deg); }
+  100% { opacity: 0; transform: scale(1.3) rotate(30deg); }
+}
+
+.dh-score-pop {
+  position: absolute;
+  pointer-events: none;
+  z-index: 50;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  animation: scoreFly 0.6s ease-out forwards;
+}
+
+@keyframes scoreFly {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
+}
+
+/* ── Desert Dash Game ────────────────────────────── */
+.dd-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: #deb887;
+}
+
+.dd-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dd-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dd-objects-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dd-car {
+  position: absolute;
+  z-index: 200;
+  transition: left 0.12s ease-out;
+  pointer-events: none;
+}
+
+.dd-car svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dd-obstacle, .dd-scenery {
+  position: absolute;
+  pointer-events: none;
+}
+
+.dd-obstacle svg, .dd-scenery svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dd-road-dash {
+  position: absolute;
+  background: #fff;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.dd-timer-display {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  z-index: 300;
+}
+
+.dd-speed-alert {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: #f39c12;
+  text-shadow: 3px 3px 0 #c0392b;
+  z-index: 400;
+  animation: speedPop 1.2s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes speedPop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  70% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.dd-touch-controls {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 300;
+  pointer-events: none;
+}
+
+.dd-touch-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 3px solid rgba(255,255,255,0.4);
+  color: #fff;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.dd-touch-btn:active {
+  background: rgba(255,255,255,0.4);
+}
+
+.dd-start, .dd-gameover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 400;
+  background: rgba(0,0,0,0.45);
+}
+
+.dd-title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  text-align: center;
+  color: #f39c12;
+  text-shadow: 3px 3px 0 #c0392b, 0 0 20px rgba(243,156,18,0.4);
+}
+
+.dd-best-time {
+  font-size: 1.2rem;
+  color: #ffd700;
+  font-weight: 700;
+  min-height: 1.4em;
+}
+
+.dd-play-btn {
+  margin-top: 8px;
+  padding: 16px 52px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(145deg, #e67e22, #d35400);
+  border: 3px solid #f39c12;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  min-height: 56px;
+}
+
+.dd-play-btn:hover, .dd-play-btn:active {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(243,156,18,0.4);
+}
+
+.dd-clear-best {
+  margin-top: 16px;
+  padding: 8px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ccc;
+  background: transparent;
+  border: 2px solid #888;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.dd-clear-best:hover, .dd-clear-best:active {
+  color: #fff;
+  border-color: #e74c3c;
+}
+
+.dd-exit-btn {
+  margin-top: 12px;
+  padding: 10px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ccc;
+  background: transparent;
+  border: 2px solid #888;
+  border-radius: 16px;
+  cursor: pointer;
+}
+.dd-exit-btn:hover, .dd-exit-btn:active {
+  color: #fff;
+  border-color: #fff;
+}
+
+.dd-crash-text {
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 900;
+  color: #e74c3c;
+  text-shadow: 4px 4px 0 #f39c12, 0 0 30px rgba(231,76,60,0.5);
+  animation: crashPop 0.3s ease-out;
+}
+
+@keyframes crashPop {
+  0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.dd-time-result {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .sticker-palette {
+    width: 80px;
+    min-width: 80px;
+  }
+
+  .palette-sticker {
+    width: 64px;
+    height: 64px;
+    padding: 6px;
+  }
+
+  .scene-toolbar {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .toolbar-btn {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .dh-grid {
+    grid-template-columns: repeat(3, minmax(70px, 110px));
+    grid-template-rows: repeat(2, 110px);
+    gap: 8px 12px;
+  }
+
+  .demon-sprite {
+    width: 62px;
+    height: 72px;
+  }
+
+  .hole-top {
+    height: 72px;
+  }
+}
