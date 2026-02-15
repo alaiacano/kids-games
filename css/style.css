@@ -139,7 +139,7 @@ body::after {
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 100;
+  z-index: 500;
   background: rgba(30, 30, 80, 0.85);
   border: 2px solid #7b68ee;
   color: #fff;
