@@ -459,6 +459,19 @@ body::after {
   overflow: hidden;
 }
 
+/* ── Dollhouse Scene ─────────────────────────────── */
+.dollhouse-canvas {
+  background: #d4c4a8;
+  cursor: crosshair;
+}
+
+.dollhouse-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 /* ── Demon Hunters Game ──────────────────────────── */
 .dh-wrapper {
   position: relative;
@@ -948,6 +961,259 @@ body::after {
   font-size: 1.5rem;
   color: #fff;
   font-weight: 700;
+}
+
+/* ── Bunny Hop Game ──────────────────────────────── */
+.bh-wrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  background: #87a96b;
+}
+
+.bh-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bh-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bh-ground-layer,
+.bh-fence-layer,
+.bh-hills-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.bh-hills-layer {
+  height: 100%;
+}
+
+.bh-fence-layer {
+  height: 50%;
+}
+
+.bh-ground-layer {
+  height: 25%;
+}
+
+.bh-objects-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bh-bunny {
+  position: absolute;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.bh-bunny svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bh-bunny.invincible {
+  animation: bhBlink 0.15s infinite alternate;
+}
+
+@keyframes bhBlink {
+  0% { opacity: 1; }
+  100% { opacity: 0.25; }
+}
+
+.bh-obstacle, .bh-carrot {
+  position: absolute;
+  pointer-events: none;
+}
+
+.bh-obstacle svg, .bh-carrot svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bh-score-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 300;
+  pointer-events: none;
+}
+
+.bh-hearts {
+  font-size: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  display: flex;
+  gap: 4px;
+}
+
+.bh-score {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bh-wave-announce {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 3px 3px 0 #5a3e1b, 0 0 20px rgba(255,200,50,0.5);
+  z-index: 400;
+  animation: bhWavePop 1.8s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes bhWavePop {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+  15% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+  60% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+}
+
+.bh-start, .bh-gameover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 400;
+  background: rgba(0,0,0,0.45);
+}
+
+.bh-title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  text-align: center;
+  color: #f5a623;
+  text-shadow: 3px 3px 0 #6b4226, 0 0 20px rgba(245,166,35,0.4);
+}
+
+.bh-best-score {
+  font-size: 1.2rem;
+  color: #ffd700;
+  font-weight: 700;
+  min-height: 1.4em;
+}
+
+.bh-play-btn {
+  margin-top: 8px;
+  padding: 16px 52px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(145deg, #e67e22, #d35400);
+  border: 3px solid #f5a623;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  min-height: 56px;
+}
+
+.bh-play-btn:hover, .bh-play-btn:active {
+  transform: scale(1.06);
+  box-shadow: 0 0 30px rgba(245,166,35,0.4);
+}
+
+.bh-exit-btn {
+  margin-top: 12px;
+  padding: 10px 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ccc;
+  background: transparent;
+  border: 2px solid #888;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.bh-exit-btn:hover, .bh-exit-btn:active {
+  color: #fff;
+  border-color: #fff;
+}
+
+.bh-crash-text {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 900;
+  color: #e74c3c;
+  text-shadow: 3px 3px 0 #c0392b, 0 0 20px rgba(231,76,60,0.4);
+  animation: crashPop 0.3s ease-out;
+}
+
+.bh-score-result {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.bh-jump-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 3px solid rgba(255,255,255,0.4);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 300;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 44px;
+  min-height: 44px;
+  pointer-events: auto;
+}
+
+.bh-jump-btn:active {
+  background: rgba(255,255,255,0.4);
+}
+
+.bh-tap-zone {
+  position: absolute;
+  inset: 0;
+  z-index: 250;
+}
+
+.bh-wave-label {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  z-index: 300;
+  pointer-events: none;
 }
 
 /* ── Responsive ──────────────────────────────────── */
