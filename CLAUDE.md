@@ -1,7 +1,7 @@
 # Kids Game - Project Guide
 
 ## Overview
-Multi-game children's app built with vanilla HTML/CSS/JS, packaged as a macOS desktop app via Tauri v2. All graphics are inline SVG strings (no external image files). No ES modules — everything uses classic `<script>` globals loaded in order.
+Multi-game children's app built with vanilla HTML/CSS/JS, packaged as a macOS desktop app via Tauri v2, and also playable in the browser via `index.html`. All graphics are inline SVG strings (no external image files). No ES modules — everything uses classic `<script>` globals loaded in order.
 
 ## Project Structure
 ```
@@ -49,14 +49,14 @@ kids-game/
 
 ## Games
 
-| Game | ID | Icon | Type |
-|------|----|------|------|
-| Sticker Scene Builder | `sticker-scene` | 🚀 | Builder (event-driven) |
-| Playground Builder | `playground-scene` | 🛝 | Builder (event-driven) |
-| Dollhouse Decorator | `dollhouse-scene` | 🏠 | Builder (event-driven) |
-| K-Pop Demon Hunters | `demon-hunters` | ⚔️ | Action (whack-a-mole) |
-| Desert Dash | `desert-dash` | 🏜️ | Action (lane dodge) |
-| Bunny Hop | `bunny-hop` | 🐰 | Action (platformer) |
+| Game | ID | Icon | Type | CSS Prefix |
+|------|----|------|------|------------|
+| Sticker Scene Builder | `sticker-scene` | 🚀 | Builder (event-driven) | `.ss-` |
+| Playground Builder | `playground-scene` | 🛝 | Builder (event-driven) | shared |
+| Dollhouse Decorator | `dollhouse-scene` | 🏠 | Builder (event-driven) | shared |
+| K-Pop Demon Hunters | `demon-hunters` | ⚔️ | Action (whack-a-mole) | `.dh-` |
+| Desert Dash | `desert-dash` | 🏜️ | Action (lane dodge) | `.dd-` |
+| Bunny Hop | `bunny-hop` | 🐰 | Action (platformer) | `.bh-` |
 
 ## CSS Conventions
 - Game-specific classes use prefixes: `.bh-` (bunny hop), `.dd-` (desert dash), `.dh-` (demon hunters)
@@ -75,3 +75,122 @@ Scripts must load in this order — later files depend on earlier ones:
 - Browser: open `index.html` directly
 - Tauri dev: `npx tauri dev`
 - Tauri build: `npx tauri build`
+
+---
+
+## Checklist: Adding a New Game
+
+1. Create `js/games/<id>.js` using the appropriate boilerplate below
+2. Add `<script src="js/games/<id>.js"></script>` to `index.html` before `</body>`
+3. Add any game-specific CSS to `css/style.css` using a new prefix (e.g. `.xy-`)
+4. Update the Games table in this file
+
+## Checklist: Adding a New Sticker Pack
+
+1. Create `js/stickers/<name>-stickers.js` using the sticker pack boilerplate below
+2. Add `<script src="js/stickers/<name>-stickers.js"></script>` to `index.html` **after** existing sticker scripts and **before** game scripts
+3. Reference the new key (`SharedStickers.MYPACK`) in whichever game uses it
+4. Update the Sticker System section in this file with new index ranges
+
+---
+
+## Boilerplates
+
+### Action Game Skeleton (`js/games/<id>.js`)
+
+```js
+/* ── <Title> ─────────────────────────────────────── */
+(() => {
+  /* ── Constants ─────────────────────────────────── */
+  const PREFIX = '<xy>'; // CSS class prefix, e.g. 'bh', 'dd'
+  const STORAGE_KEY = 'best-<id>';
+
+  /* ── State ─────────────────────────────────────── */
+  const listeners = [];
+  let animFrameId = null;
+  let gameActive = false;
+  let lastTime = 0;
+  let score = 0;
+  let bestScore = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+
+  /* ── Helpers ────────────────────────────────────── */
+  function listen(el, event, handler, opts) {
+    el.addEventListener(event, handler, opts);
+    listeners.push({ el, event, handler, opts });
+  }
+
+  function saveBest() {
+    localStorage.setItem(STORAGE_KEY, bestScore);
+  }
+
+  /* ── Game Loop ──────────────────────────────────── */
+  function loop(ts) {
+    if (!gameActive) return;
+    const dt = Math.min((ts - lastTime) / 1000, 0.1); // seconds, capped
+    lastTime = ts;
+
+    // TODO: update game state using dt
+
+    animFrameId = requestAnimationFrame(loop);
+  }
+
+  /* ── Init ───────────────────────────────────────── */
+  function init(container) {
+    gameActive = true;
+    score = 0;
+
+    // TODO: build DOM, attach listeners via listen()
+
+    lastTime = performance.now();
+    animFrameId = requestAnimationFrame(loop);
+  }
+
+  /* ── Destroy ────────────────────────────────────── */
+  function destroy() {
+    gameActive = false;
+    cancelAnimationFrame(animFrameId);
+
+    listeners.forEach(({ el, event, handler, opts }) =>
+      el.removeEventListener(event, handler, opts));
+    listeners.length = 0;
+
+    if (score > bestScore) {
+      bestScore = score;
+      saveBest();
+    }
+  }
+
+  /* ── Register ───────────────────────────────────── */
+  App.registerGame({
+    id: '<id>',
+    title: '<Title>',
+    description: '<One-line description>',
+    icon: '<emoji>',
+    init,
+    destroy
+  });
+})();
+```
+
+### Sticker Pack Skeleton (`js/stickers/<name>-stickers.js`)
+
+```js
+/* ── <Name> Sticker SVGs ────────────────────────── */
+(function () {
+  window.SharedStickers = window.SharedStickers || {};
+
+  window.SharedStickers.<KEY> = [
+    {
+      name: '<StickerName>',
+      svg: `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- SVG content here -->
+      </svg>`
+    },
+    // ... more stickers — DO NOT reorder; indices are saved in localStorage
+  ];
+})();
+```
+
+### Custom Slash Commands
+- `/new-action-game` — scaffolds a complete action game file
+- `/new-sticker-pack` — scaffolds a complete sticker pack file
