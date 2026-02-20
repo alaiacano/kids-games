@@ -100,13 +100,43 @@
       <circle cx="16" cy="26" r="3" fill="#4a9e3a" opacity="0.6"/>
       <circle cx="40" cy="20" r="2.5" fill="#6bc85a" opacity="0.5"/>
     </svg>`,
-    shovel: `<svg viewBox="0 0 30 65" xmlns="http://www.w3.org/2000/svg">
-      <rect x="13" y="18" width="4" height="38" rx="1.5" fill="#a0784a"/>
-      <rect x="10" y="16" width="10" height="5" rx="2" fill="#8B6914"/>
-      <path d="M8 18 L15 0 L22 18 Z" fill="#8a8a8a"/>
-      <path d="M9 16 L15 2 L21 16 Z" fill="#a5a5a5"/>
-      <line x1="15" y1="4" x2="15" y2="16" stroke="#c0c0c0" stroke-width="1" opacity="0.5"/>
-      <ellipse cx="15" cy="58" rx="5" ry="3" fill="rgba(0,0,0,0.15)"/>
+    fox: `<svg viewBox="0 0 60 55" xmlns="http://www.w3.org/2000/svg">
+      <!-- Tail -->
+      <path d="M2 30 Q0 18 8 14 Q12 20 10 30 Q8 38 12 40Z" fill="#e87e24"/>
+      <path d="M2 28 Q2 20 6 16 Q8 22 8 30" fill="#f5a623" opacity="0.6"/>
+      <path d="M2 30 Q0 34 4 36" fill="#fff" opacity="0.7"/>
+      <!-- Body -->
+      <ellipse cx="28" cy="36" rx="18" ry="14" fill="#e87e24"/>
+      <!-- Belly -->
+      <ellipse cx="30" cy="40" rx="12" ry="8" fill="#fce4b8"/>
+      <!-- Head -->
+      <ellipse cx="48" cy="24" rx="11" ry="10" fill="#e87e24"/>
+      <!-- Ears -->
+      <path d="M42 16 L38 4 L44 12Z" fill="#e87e24"/>
+      <path d="M42 14 L40 6 L44 12Z" fill="#333"/>
+      <path d="M52 14 L54 2 L56 12Z" fill="#e87e24"/>
+      <path d="M52 12 L54 4 L56 12Z" fill="#333"/>
+      <!-- Snout -->
+      <ellipse cx="54" cy="28" rx="6" ry="5" fill="#fce4b8"/>
+      <!-- Nose -->
+      <ellipse cx="58" cy="26" rx="2" ry="1.5" fill="#333"/>
+      <!-- Eye -->
+      <circle cx="48" cy="22" r="2.5" fill="#fff"/>
+      <circle cx="49" cy="22" r="1.5" fill="#2c3e50"/>
+      <circle cx="49.3" cy="21.5" r="0.5" fill="#fff"/>
+      <!-- Mouth -->
+      <path d="M55 29 Q56 31 58 29" stroke="#c0392b" stroke-width="0.8" fill="none"/>
+      <!-- Front legs -->
+      <rect x="36" y="44" width="5" height="10" rx="2" fill="#c0651a"/>
+      <rect x="42" y="44" width="5" height="10" rx="2" fill="#c0651a"/>
+      <!-- Back legs -->
+      <rect x="16" y="44" width="5" height="10" rx="2" fill="#c0651a"/>
+      <rect x="22" y="44" width="5" height="10" rx="2" fill="#c0651a"/>
+      <!-- Paws -->
+      <ellipse cx="38" cy="54" rx="3.5" ry="2" fill="#333"/>
+      <ellipse cx="44" cy="54" rx="3.5" ry="2" fill="#333"/>
+      <ellipse cx="18" cy="54" rx="3.5" ry="2" fill="#333"/>
+      <ellipse cx="24" cy="54" rx="3.5" ry="2" fill="#333"/>
     </svg>`,
     rock: `<svg viewBox="0 0 50 40" xmlns="http://www.w3.org/2000/svg">
       <path d="M5 38 L8 20 L18 10 L30 8 L40 14 L48 24 L48 38Z" fill="#8a7d6b"/>
@@ -117,25 +147,36 @@
   };
 
   /* ── Carrot SVG ───────────────────────────────── */
-  const CARROT_SVG = `<svg viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 8 L4 2 L10 5Z" fill="#2ecc71"/>
-    <path d="M12 6 L12 0 L16 4Z" fill="#27ae60"/>
-    <path d="M14 8 L18 3 L15 6Z" fill="#2ecc71"/>
-    <path d="M12 8 Q14 20 12 34 Q10 20 12 8Z" fill="#e67e22" stroke="#d35400" stroke-width="0.5"/>
-    <line x1="11" y1="14" x2="13" y2="14" stroke="#d35400" stroke-width="0.5" opacity="0.5"/>
-    <line x1="11" y1="20" x2="13" y2="20" stroke="#d35400" stroke-width="0.5" opacity="0.5"/>
-    <line x1="11.5" y1="26" x2="12.5" y2="26" stroke="#d35400" stroke-width="0.5" opacity="0.5"/>
+  const CARROT_SVG = `<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <g transform="rotate(-45 30 30)">
+      <!-- Leafy green top -->
+      <path d="M24 18 Q20 4 26 2 Q30 6 28 16Z" fill="#27ae60"/>
+      <path d="M30 16 Q30 0 34 0 Q36 4 32 16Z" fill="#2ecc71"/>
+      <path d="M34 18 Q38 6 42 4 Q40 10 36 18Z" fill="#27ae60"/>
+      <path d="M27 16 Q24 8 28 6 Q30 10 29 16Z" fill="#2ecc71" opacity="0.8"/>
+      <path d="M33 16 Q36 8 38 8 Q37 12 34 16Z" fill="#2ecc71" opacity="0.8"/>
+      <!-- Thick carrot body -->
+      <path d="M22 20 Q20 22 22 30 Q24 42 30 56 Q36 42 38 30 Q40 22 38 20Z" fill="#f39c12"/>
+      <path d="M24 20 Q22 24 24 32 Q26 44 30 56 Q28 44 26 32 Q24 24 26 20Z" fill="#e67e22" opacity="0.5"/>
+      <!-- Highlight -->
+      <path d="M32 22 Q34 24 34 30 Q34 36 32 40" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Detail lines -->
+      <line x1="26" y1="26" x2="34" y2="26" stroke="#d35400" stroke-width="0.8" opacity="0.4"/>
+      <line x1="25" y1="32" x2="35" y2="32" stroke="#d35400" stroke-width="0.8" opacity="0.4"/>
+      <line x1="27" y1="38" x2="33" y2="38" stroke="#d35400" stroke-width="0.8" opacity="0.3"/>
+      <line x1="28" y1="44" x2="32" y2="44" stroke="#d35400" stroke-width="0.8" opacity="0.3"/>
+    </g>
   </svg>`;
 
   /* ── Obstacle dimensions ─────────────────────── */
   const OBS_DIMS = {
-    bush:   { w: 60, h: 40 },
-    shovel: { w: 28, h: 55 },
-    rock:   { w: 45, h: 35 }
+    bush: { w: 60, h: 40, hx: 6, hy: 10, hw: 48, hh: 28 },
+    fox:  { w: 55, h: 50, hx: 6, hy: 6, hw: 44, hh: 40 },
+    rock: { w: 45, h: 35, hx: 5, hy: 8, hw: 35, hh: 24 }
   };
-  const OBSTACLE_TYPES = ['bush', 'shovel', 'rock'];
-  const CARROT_W = 22;
-  const CARROT_H = 34;
+  const OBSTACLE_TYPES = ['bush', 'fox', 'rock'];
+  const CARROT_W = 44;
+  const CARROT_H = 44;
 
   /* ── Constants ────────────────────────────────── */
   const STORAGE_KEY = 'bunny-hop-best';
@@ -595,10 +636,12 @@
     const bHitW = BUNNY_W - 16;
     const bHitH = BUNNY_H - 10;
 
-    // Collision with obstacles
+    // Collision with obstacles (using per-obstacle hitboxes)
     if (invincibleTimer <= 0) {
       for (const obs of obstacles) {
-        if (aabb(bHitX, bHitY, bHitW, bHitH, obs.x, groundY - obs.h, obs.w, obs.h)) {
+        const dims = OBS_DIMS[obs.type];
+        const obsTopY = groundY - obs.h;
+        if (aabb(bHitX, bHitY, bHitW, bHitH, obs.x + dims.hx, obsTopY + dims.hy, dims.hw, dims.hh)) {
           hearts--;
           updateHeartsDisplay();
           if (hearts <= 0) {
