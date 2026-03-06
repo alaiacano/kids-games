@@ -6,9 +6,9 @@ A collection of kids' games built with plain HTML/CSS/JS, wrapped as a native de
 
 ## To Play in Browser
 
-1 - Clone or download the code. To download, click the green `Code` button then `Download ZIP` and unzip the file.
-2 - Open `index.html` in your browser.
-3 - Have fun!
+1. Clone or download the code. To download, click the green `Code` button then `Download ZIP` and unzip the file.
+2. Open `index.html` in your browser.
+3. Have fun!
 
 ## Build Desktop App
 
