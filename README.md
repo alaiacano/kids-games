@@ -2,6 +2,8 @@
 
 A collection of kids' games built with plain HTML/CSS/JS, wrapped as a native desktop app using Tauri v2.
 
+![](screenshots/menu.png)
+
 ## Play in Browser
 
 Open `index.html` in your browser.
