@@ -17,7 +17,14 @@ kids-game/
 │   │   ├── dollhouse-scene.js    # Dollhouse decorator
 │   │   ├── demon-hunters.js      # K-Pop whack-a-mole
 │   │   ├── desert-dash.js        # 3D perspective driving dodge game
-│   │   └── bunny-hop.js          # Side-scrolling platformer runner
+│   │   ├── bunny-hop.js          # Side-scrolling platformer runner
+│   │   ├── bowling.js            # Physics-based bowling (uses matter.js)
+│   │   └── potion-making/        # Multi-screen potion brewer + village combat
+│   │       ├── potion-data.js    # PotionMaking.Potions / .Monsters
+│   │       ├── characters.js     # PotionMaking.Characters factory + presets
+│   │       ├── screens-meta.js   # CharacterSelect / Gallery / Mixing screens
+│   │       ├── village.js        # Procedural top-down board generator
+│   │       └── potion-making.js  # Main: registers game, orchestrates screens, combat
 │   └── stickers/
 │       ├── space-stickers.js     # SharedStickers.SPACE (14 space stickers)
 │       └── dino-stickers.js      # SharedStickers.DINOS (6 dinosaur stickers)
@@ -57,9 +64,14 @@ kids-game/
 | K-Pop Demon Hunters | `demon-hunters` | ⚔️ | Action (whack-a-mole) | `.dh-` |
 | Desert Dash | `desert-dash` | 🏜️ | Action (lane dodge) | `.dd-` |
 | Bunny Hop | `bunny-hop` | 🐰 | Action (platformer) | `.bh-` |
+| Bowling | `bowling` | 🎳 | Action (physics bowling) | `.bw-` |
+| Potion Making | `potion-making` | 🧪 | Multi-screen (build + combat) | `.pm-` |
+
+## Potion Making notes
+The `potion-making` game is the only multi-file game and the only one with multiple screens (character select → gallery → mixing → village combat). It lives in `js/games/potion-making/` and registers itself via the entrypoint `potion-making.js` (loads last). Sub-prefixes for CSS: `.pm-char-` / `.pm-gal-` / `.pm-mix-` / `.pm-vil-`. localStorage uses `pm-characters` / `pm-potions` keyed by stable string ids — never index-based — so adding new singular potions is purely additive (see `/new-potion`).
 
 ## CSS Conventions
-- Game-specific classes use prefixes: `.bh-` (bunny hop), `.dd-` (desert dash), `.dh-` (demon hunters)
+- Game-specific classes use prefixes: `.bh-` (bunny hop), `.dd-` (desert dash), `.dh-` (demon hunters), `.pm-` (potion making)
 - Builder games share `.sticker-scene`, `.sticker-palette`, `.scene-canvas`, etc.
 - Dark blue background (`#0b0d2a`) with animated starfield
 
@@ -70,6 +82,7 @@ Scripts must load in this order — later files depend on earlier ones:
 3. `js/stickers/space-stickers.js` (adds `.SPACE`)
 4. `js/stickers/dino-stickers.js` (adds `.DINOS`)
 5. All game files (`sticker-scene.js`, `playground-scene.js`, etc.)
+Note: `matter.min.js` (CDN) loads before `app.js` for the bowling game's physics engine.
 
 ## Running
 - Browser: open `index.html` directly
@@ -194,3 +207,4 @@ Scripts must load in this order — later files depend on earlier ones:
 ### Custom Slash Commands
 - `/new-action-game` — scaffolds a complete action game file
 - `/new-sticker-pack` — scaffolds a complete sticker pack file
+- `/new-potion` — appends a new singular potion to the Potion Making data file and generates combo names
